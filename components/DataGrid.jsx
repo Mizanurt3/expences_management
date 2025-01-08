@@ -1,15 +1,22 @@
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import styles from '../styles/Home.module.css';
 import axios from 'axios';
+import InsertTransactionPopup from './InsertTransactionPopup';
 
 // API থেকে লেনদেন তথ্য পেতে ফাংশন
 const fetchTransactions = async () => {
   const res = await axios.get('/api/transactions');
-  return res.data; // পুরো JSON অবজেক্ট রিটার্ন হবে
+  return res.data;
 };
 
 export default function DataGrid({ onEditClick }) {
   const queryClient = useQueryClient();
+
+  const [showPopup, setShowPopup] = useState(false); // শীর্ষে ব্যবহার
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
 
   // লেনদেন মুছে ফেলার জন্য mutation
   const deleteMutation = useMutation({
@@ -26,7 +33,7 @@ export default function DataGrid({ onEditClick }) {
   // লেনদেন মুছে ফেলার জন্য ফাংশন
   const handleDelete = (id) => {
     if (confirm('আপনি কি নিশ্চিত যে আপনি এই লেনদেনটি মুছে ফেলতে চান?')) {
-      deleteMutation.mutate(id); // axios mutation ব্যবহার
+      deleteMutation.mutate(id);
     }
   };
 
@@ -39,33 +46,41 @@ export default function DataGrid({ onEditClick }) {
   if (isLoading) return <p>লোড হচ্ছে...</p>;
   if (error) return <p>ত্রুটি: {error.message}</p>;
 
-  // তারিখ ফরম্যাট করার ফাংশন
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
     return new Intl.DateTimeFormat('en-US', options).format(new Date(dateString));
   };
 
-  // মোট জমা, মোট খরচ, এবং ব্যালেন্স ক্যালকুলেট
   const totalDeposit = data.result.reduce((acc, item) => acc + (item.deposit_amount || 0), 0);
   const totalWithdraw = data.result.reduce((acc, item) => acc + (item.withdraw_amount || 0), 0);
   const balance = totalDeposit - totalWithdraw;
 
   return (
     <div>
-      <div className={styles.summary}>
-        <p>মোট জমা: {totalDeposit}</p>
-        <p>মোট খরচ: {totalWithdraw}</p>
-        <p>বর্তমান ব্যালেন্স: {balance}</p>
+      {showPopup && <InsertTransactionPopup onClose={togglePopup} />}
+      <div className={`${styles.summary} flex flex-row items-center gap-4`}>
+        
+        <p className="p-2 border rounded-md">মোট জমা: {totalDeposit}</p>
+        <p className="p-2 border rounded-md">মোট খরচ: {totalWithdraw}</p>
+        <p className="p-2 border rounded-md">বর্তমান ব্যালেন্স: {balance}</p>
+
+        <button
+          onClick={togglePopup}
+          className="bg-amber-400 p-4 rounded-lg shadow-lg flex flex-col gap-4"
+        >
+          লেনদেন যুক্ত করুন
+        </button>
       </div>
+
       
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>জমা /খরচ</th>
-            <th>লেনদেনের তারিখ</th>
+            <th className="max-w-[37px]">জমা/খরচ</th> 
+            <th className="min-w-[75px]">লেনদেনের-তারিখ</th>
             <th>বিবরণ</th>
-            <th>জমার <br/> টাকা</th>
-            <th>খরচের <br/> টাকা</th>
+            <th className="max-w-[42px]">জমার <br /> টাকা</th>
+            <th className="max-w-[42px]">খরচের <br /> টাকা</th>
             <th></th>
             <th></th>
           </tr>
@@ -73,7 +88,7 @@ export default function DataGrid({ onEditClick }) {
         <tbody>
           {data.result.map((item) => (
             <tr key={item.id}>
-              <td>{item.transaction_type}</td>
+              <td className="max-w-[37px]">{item.transaction_type}</td>
               <td>{formatDate(item.transaction_date)}</td>
               <td>{item.description}</td>
               <td>{item.deposit_amount}</td>
