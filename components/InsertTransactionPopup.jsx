@@ -6,7 +6,7 @@ import styles from '@/styles/Home.module.css'
 export default function InsertTransactionPopup({onClose}) {
   const [formData, setFormData] = useState({ 
     
-    transaction_type: '', 
+    transaction_type: 'খরচ', 
     description: '', 
     deposit_amount: 0, 
     withdraw_amount: 0, 
@@ -67,11 +67,9 @@ export default function InsertTransactionPopup({onClose}) {
                 value={formData.transaction_type}
                 onChange={(e) => setFormData({ ...formData, transaction_type: e.target.value })}
               >
-                <option value="" disabled>
-                  জমা/খরচ
-                </option>
-                <option value="জমা">জমা</option>
                 <option value="খরচ">খরচ</option>
+                <option value="জমা">জমা</option>
+                
               </select>
 
               <input

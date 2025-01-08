@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
 import DataGrid from '@/components/DataGrid';
 import EditTransactionPopup from '@/components/EditTransactionPopup'; 
 import styles from '@/styles/Home.module.css';
-import InsertTransactionPopup from '@/components/InsertTransactionPopup';
+
 
 // Importing the local image
 import coverImage from '@/public/images/cover-image.jpg'; // Make sure the path is correct
