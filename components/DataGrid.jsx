@@ -61,13 +61,13 @@ export default function DataGrid({ onEditClick }) {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>লেনদেনের প্রকার</th>
-            <th>তারিখ</th>
+            <th>জমা /খরচ</th>
+            <th>লেনদেনের তারিখ</th>
             <th>বিবরণ</th>
-            <th>জমার পরিমাণ</th>
-            <th>খরচের পরিমাণ</th>
-            <th>সম্পাদনা</th>
-            <th>মুছুন</th>
+            <th>জমার <br/> টাকা</th>
+            <th>খরচের <br/> টাকা</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

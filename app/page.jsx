@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import DataGrid from '@/components/DataGrid';
 import EditTransactionPopup from '@/components/EditTransactionPopup'; // পপ-আপ কম্পোনেন্ট ইম্পোর্ট
-
+import styles from '@/styles/Home.module.css'
 export default function Home() {
   const [formData, setFormData] = useState({ 
     
@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>লেনদেন ব্যবস্থাপনা</h1>
       <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
         <input
