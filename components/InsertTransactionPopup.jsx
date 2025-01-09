@@ -17,7 +17,7 @@ export default function InsertTransactionPopup({onClose}) {
 
   const mutation = useMutation({
     mutationFn: (newTransaction) => {
-      return axios.post("http://localhost:3000/api/transactions", newTransaction);
+      return axios.post("/api/transactions", newTransaction);
     },
     onMutate: (data) => {
       console.log("onMutate", data);
