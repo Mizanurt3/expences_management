@@ -12,7 +12,7 @@ const nextConfig = {
           headers: [
             {
               key: 'Access-Control-Allow-Origin',
-              value: 'https://expences-management.vercel.app, http://localhost:3000',
+              value: 'https://expences-management.vercel.app',
             },
             {
               key: 'Access-Control-Allow-Methods',
