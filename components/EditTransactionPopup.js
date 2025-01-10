@@ -37,7 +37,7 @@ export default function EditTransactionPopup({ transaction, onClose }) {
   return (
     <div className="popup">
       <div className="bg-white p-7 rounded-lg">
-        <h2>Edit Transaction</h2>
+        <h2>লেনদেন সংশোধন করুন</h2>
         <form
           className="bg-amber-400 p-4 w-full max-w-lg mx-auto rounded-lg shadow-lg flex flex-col gap-4"
           onSubmit={handleSubmit}
