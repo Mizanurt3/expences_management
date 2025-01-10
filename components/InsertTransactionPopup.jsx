@@ -35,23 +35,23 @@ export default function InsertTransactionPopup({ onClose }) {
   });
 
   const handleSubmit = () => {
-    const currentDateTime = new Date();
-    const formattedDateTime = `${currentDateTime.getFullYear()}-${String(
-      currentDateTime.getMonth() + 1
-    ).padStart(2, '0')}-${String(currentDateTime.getDate()).padStart(
-      2,
-      '0'
-    )} ` +
-      `${String(currentDateTime.getHours()).padStart(2, '0')}:${String(
-        currentDateTime.getMinutes()
-      ).padStart(2, '0')}:${String(currentDateTime.getSeconds()).padStart(
-        2,
-        '0'
-      )}.${String(currentDateTime.getMilliseconds()).padStart(3, '0')}`;
+    // const currentDateTime = new Date();
+    // const formattedDateTime = `${currentDateTime.getFullYear()}-${String(
+    //   currentDateTime.getMonth() + 1
+    // ).padStart(2, '0')}-${String(currentDateTime.getDate()).padStart(
+    //   2,
+    //   '0'
+    // )} ` +
+    //   `${String(currentDateTime.getHours()).padStart(2, '0')}:${String(
+    //     currentDateTime.getMinutes()
+    //   ).padStart(2, '0')}:${String(currentDateTime.getSeconds()).padStart(
+    //     2,
+    //     '0'
+    //   )}.${String(currentDateTime.getMilliseconds()).padStart(3, '0')}`;
 
     const transactionData = {
       transaction_type: formData.transaction_type,
-      transaction_date: formattedDateTime,
+      transaction_date: formData.transaction_date,
       description: formData.description,
       deposit_amount: parseInt(formData.deposit_amount) || 0,
       withdraw_amount: parseInt(formData.withdraw_amount) || 0,
@@ -92,8 +92,18 @@ export default function InsertTransactionPopup({ onClose }) {
           <input
             type="date"
             className="p-2 border rounded-md flex-1"
-            value={formData.transaction_date}
-            onChange={(e) => setFormData({ ...formData, transaction_date: e.target.value })}
+            value={formData.transaction_date.slice(0, 10)}
+            onChange={(e) => {
+              const datePart = e.target.value;
+              const currentDateTime = new Date();
+              const formattedDateTime = `${datePart} ` +
+                `${String(currentDateTime.getHours()).padStart(2, '0')}:` +
+                `${String(currentDateTime.getMinutes()).padStart(2, '0')}:` +
+                `${String(currentDateTime.getSeconds()).padStart(2, '0')}.` +
+                `${String(currentDateTime.getMilliseconds()).padStart(3, '0')}`;
+
+              setFormData({ ...formData, transaction_date: formattedDateTime });
+            }}
           />
 
           <input

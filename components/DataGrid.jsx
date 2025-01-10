@@ -46,10 +46,18 @@ export default function DataGrid({ onEditClick }) {
   if (isLoading) return <p>লোড হচ্ছে...</p>;
   if (error) return <p>ত্রুটি: {error.message}</p>;
 
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000); // UTC থেকে Local Time
+  //   const options = { day: '2-digit', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+  //   return new Intl.DateTimeFormat('en-US', options).format(localDate);
+  // };
+
   const formatDate = (dateString) => {
     const options = { day: '2-digit', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
     return new Intl.DateTimeFormat('en-US', options).format(new Date(dateString));
   };
+  
 
   const totalDeposit = data.result.reduce((acc, item) => acc + (item.deposit_amount || 0), 0);
   const totalWithdraw = data.result.reduce((acc, item) => acc + (item.withdraw_amount || 0), 0);
